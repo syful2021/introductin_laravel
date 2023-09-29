@@ -13,8 +13,6 @@ use App\Http\Controllers\StudentController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 
-   
-
 */
 
 // Route::get('/demo', function () {
@@ -23,7 +21,9 @@ use App\Http\Controllers\StudentController;
 
     // student route
 
-Route::get('/index',[StudentController::class,'index'])->name('student.index');               
+Route::get('/index',[StudentController::class,'index'])->name('student.index');
 Route::get('/create',[StudentController::class, 'create'])->name('student.create');
 Route::post('/store',[StudentController::class, 'store'])->name('student.store');
 Route::get('/edit/{id}',[StudentController::class, 'edit'])->name('student.edit');
+Route::post('/update/{id}',[StudentController::class, 'update'])->name('student.update');
+Route::get('/delete/{id}',[StudentController::class, 'delete'])->name('student.delete');
