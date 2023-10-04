@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -65,11 +66,12 @@ class StudentController extends Controller
     }
 
     function update(Request $req, $id){
+
         $validator =validator::make($req->all(),[
             'name'=>['required', 'string', ],
             'roll'=>['required', 'numeric', 'digits:3' ],
             'reg'=>['required', 'numeric', "digits:6" ],
-            'email'=>['required', 'email', 'unique:students,email'],
+            // 'email'=>['required', 'email', 'unique:students,email'],
             'image'=>['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp','max:2048'],
 
         ]);
@@ -79,6 +81,15 @@ class StudentController extends Controller
 
 
         $student = Student::findOrFail($id);
+
+        if($req->hasFile('image')){
+            $image = $req->file('image');
+            $path = $image->store("students", 'public');
+            Storage::delete('public/'. $req->image);
+            $student->image = $path;
+        }
+
+
         $student->name = $req->name;
         $student->roll = $req->roll;
         $student->registration = $req->reg;
