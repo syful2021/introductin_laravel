@@ -26,14 +26,23 @@ class StudentController extends Controller
             'name'=>['required', 'string', ],
             'roll'=>['required', 'numeric', 'digits:3' ],
             'reg'=>['required', 'numeric', "digits:6" ],
-            'email'=>['required', 'email', 'unique:students,email']
+            'email'=>['required', 'email', 'unique:students,email'],
+            'image'=>['required', 'image', 'mimes:jpeg,png,jpg,gif,webp','max:2048'],
+
         ]);
         if($validator->fails()){
             return  redirect()->back()->withErrors($validator)->withInput();
         }
 
-
         $insert = new Student();
+        if($req->hasFile('image')){
+            $image = $req->file('image');
+            $path = $image->store("students/$insert->id", 'public');
+            $insert->image = $path;
+        }
+
+
+
         $insert->name = $req->name;
         $insert->roll = $req->roll;
         $insert->registration = $req->reg;
@@ -56,6 +65,19 @@ class StudentController extends Controller
     }
 
     function update(Request $req, $id){
+        $validator =validator::make($req->all(),[
+            'name'=>['required', 'string', ],
+            'roll'=>['required', 'numeric', 'digits:3' ],
+            'reg'=>['required', 'numeric', "digits:6" ],
+            'email'=>['required', 'email', 'unique:students,email'],
+            'image'=>['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp','max:2048'],
+
+        ]);
+        if($validator->fails()){
+            return  redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
         $student = Student::findOrFail($id);
         $student->name = $req->name;
         $student->roll = $req->roll;
@@ -64,7 +86,7 @@ class StudentController extends Controller
         // $student->updated_at = Carbon::now();
         $student->update();
 
-        return redirect()->route('student.index');
+        return redirect()->route('student.index')->with('success','Data Insert Successfully.');
 
     }
 

@@ -13,20 +13,25 @@
         <div class="row">
             <div class="col-md-10 my-5">
                 <div class="card">
-                   
+
                     <div class="card-header">
                         <h1 class="float-start" >Add Student</h1>
                          <a href="{{route('student.index')}}" class="btn btn-outline-info btn-sm float-end">Back</a>
                     </div>
                     <div class="card-body ">
-                         <form action="{{route('student.store')}}"  method="POST" >
+                         <form action="{{route('student.store')}}"  method="POST" enctype="multipart/form-data">
                             @csrf
 
-                             <input type="text" class="form-control mb-3 " value="{{old('name')}}" name= "name" placeholder= "Enter name" >
-                            @if($errors->has('name'))
-                                <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
-                            @endif
-                             <input type="text" class="form-control mb-3 " value="{{old('roll')}}" name= "roll" placeholder= "Enter roll">
+                            <input type="text" class="form-control mb-3 " value="{{old('name')}}" name= "name" placeholder= "Enter name" >
+                           @if($errors->has('name'))
+                               <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
+                           @endif
+                                    {{--for image --}}
+                            <input type="file" accept="image/*" class="form-control mb-3 " name= "image" >
+                           @if($errors->has('image'))
+                               <span class="text-danger" role="alert">{{ $errors->first('image')}}</span>
+                           @endif
+                            <input type="text" class="form-control mb-3 " value="{{old('roll')}}" name= "roll" placeholder= "Enter roll">
                             @if($errors->has('roll'))
                                 <span class="text-danger" role="alert">{{ $errors->first('roll')}}</span>
                             @endif
@@ -42,10 +47,6 @@
                          </form>
                     </div>
                 </div>
-            </div>text-danger  </div>
-
-
-
 
 
 

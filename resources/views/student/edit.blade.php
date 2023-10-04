@@ -23,10 +23,31 @@
                             @csrf
                              {{-- {{dd($student)}} --}}
                             <input type="text" class="form-control mb-3 " value="{{$student->name}}" name="name" placeholder="enter name" >
+
+                                @if($errors->has('name'))
+                                    <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
+                                @endif
+                                {{--for image --}}
+                            <input type="file"  name="image"  accept="image/*" class="form-control mb-3 " >
+                                @if($student->image)
+                                    <div class="div">
+                                        <img src="{{asset('storage/' . $student->image)}}" alt="{{$student->name}}" height="50px" width="60px" class="rounded">
+                                    </div>
+                                @endif       {{--end-image--}}
                             <input type="text" class="form-control mb-3 " value="{{$student->roll}}" name="roll" placeholder="enter roll">
+                                @if($errors->has('roll'))
+                                <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
+                                @endif
                             <input type="text" class="form-control mb-3 " value="{{$student->registration}}" name="reg" placeholder="enter registration">
+                                @if($errors->has('reg'))
+                                <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
+                                @endif
                             <input type="email"class="form-control mb-3 " value="{{$student->email}}" name="email" placeholder="enter valid email">
+                                @if($errors->has('email'))
+                                <span class="text-danger" role="alert">{{ $errors->first('name')}}</span>
+                                @endif
                             <input type="submit" class="btn btn-outline-success w-100 "  value="Update">
+
                          </form>
 
                     </div>
